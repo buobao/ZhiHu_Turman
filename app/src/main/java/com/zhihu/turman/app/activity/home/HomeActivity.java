@@ -9,10 +9,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.TurmanApplication;
 import com.zhihu.turman.app.entity.Theme;
 import com.zhihu.turman.app.entity.ThemeResult;
 import com.zhihu.turman.app.net.NetworkClient;
@@ -23,6 +26,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
@@ -41,16 +45,23 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     protected SwipeRefreshLayout mSwipeRefreshLayout;
 
     private ThemeListAdapter themeListAdapter;
-
+    //主题数据列表
     private LinkedList<Theme> mEntityList = new LinkedList<>();
+
+    private TurmanApplication mApp;
+
+    private Subscription mSubscription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_home);
         ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
 
+
+        mApp = (TurmanApplication)getApplication();
+
+        setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
@@ -67,12 +78,18 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         themeListAdapter = new ThemeListAdapter(mEntityList, this);
         mListView.setAdapter(themeListAdapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mApp.openCommon(HomeActivity.this,null);
+            }
+        });
         //加载数据
         loadDate();
     }
 
     private void loadDate(){
-        Observable.just(System.currentTimeMillis())
+        mSubscription = Observable.just(System.currentTimeMillis())
                 .flatMap(new Func1<Long, Observable<ThemeResult>>() {
                     @Override
                     public Observable<ThemeResult> call(Long aLong) {
@@ -90,18 +107,26 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Toast.makeText(HomeActivity.this, "数据加载失败",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(HomeActivity.this, "数据加载失败", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onNext(ThemeResult articaleResult) {
-                        for (Theme a : articaleResult.others){
+                        for (Theme a : articaleResult.others) {
                             mEntityList.add(a);
                         }
                         themeListAdapter.notifyDataSetChanged();
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mSubscription != null && !mSubscription.isUnsubscribed()) {
+            mSubscription.unsubscribe();
+        }
     }
 
     @Override

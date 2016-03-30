@@ -16,7 +16,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentBottom="true"
-            android:text="这里是标题这里是标题这里是标题"
             android:textSize="21sp"
             android:textColor="@android:color/black"
             />
@@ -44,7 +43,6 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/item_photo"
-            android:src="@drawable/default_photo"
             />
         <RelativeLayout
             android:layout_width="match_parent"
@@ -53,7 +51,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/item_content"
-                android:text="这里是摘要内容这里是摘要内容这里是摘要内容这里是摘要内容"
                 android:textSize="16sp"
                 android:layout_marginLeft="5dp"/>
             <TextView
@@ -61,9 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-
                 android:layout_below="@id/item_content"
-                android:text="2016-03-29"
                 android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>

@@ -29,7 +29,7 @@ public class ThemeListAdapter extends ListAdapter<Theme> {
                 .load(mDataList.get(position).thumbnail)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.img_circle_placeholder)
-                .error(R.drawable.ic_default_avatar)
+                .error(R.drawable.default_photo)
                 .centerCrop()
                 .transform(new CropCircleTransformation(mContext))
                 .into(holder.photo);
