@@ -1,6 +1,6 @@
 package com.zhihu.turman.app.net;
 
-import com.zhihu.turman.app.net.service.ArticaleService;
+import com.zhihu.turman.app.net.service.ThemeService;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -13,11 +13,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkClient {
     private static Retrofit client = null;
 
-    public static final String BASE_URL = "http://api.kanzhihu.com/";
-    public static final String GET_POSTS = "getposts/{timestamp}";
+    public static final String BASE_URL = "http://news-at.zhihu.com/api/";
 
+    public static final String THEMES = "4/themes";
 
-    private static ArticaleService articaleService = null;
+    private static ThemeService themeService = null;
     private NetworkClient(){}
 
     public static Retrofit getClient(){
@@ -35,11 +35,11 @@ public class NetworkClient {
         return client;
     }
 
-    public static ArticaleService getArticaleService(){
-        if (articaleService == null){
-            articaleService = getClient().create(ArticaleService.class);
+    public static ThemeService getThemeService(){
+        if (themeService == null){
+            themeService = getClient().create(ThemeService.class);
         }
-        return articaleService;
+        return themeService;
     }
 
 

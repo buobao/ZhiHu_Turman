@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_margin="5dp">
 
         <TextView
@@ -15,6 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
             android:text="这里是标题这里是标题这里是标题"
             android:textSize="21sp"
             android:textColor="@android:color/black"
@@ -26,6 +27,7 @@
             android:id="@+id/item_vote"
             android:drawableLeft="@drawable/vote"
             android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
             android:text="204"
             android:textColor="@android:color/darker_gray"
             />
