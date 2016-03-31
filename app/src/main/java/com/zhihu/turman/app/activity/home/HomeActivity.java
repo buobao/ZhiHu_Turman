@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.zhihu.turman.app.R;
 import com.zhihu.turman.app.TurmanApplication;
+import com.zhihu.turman.app.activity.common.CommonActivity;
+import com.zhihu.turman.app.activity.common.CommonEnum;
 import com.zhihu.turman.app.entity.Theme;
 import com.zhihu.turman.app.entity.ThemeResult;
 import com.zhihu.turman.app.net.NetworkClient;
@@ -81,7 +83,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mApp.openCommon(HomeActivity.this,null);
+                Bundle bundle = new Bundle();
+                bundle.putInt(CommonActivity.COMMON_TITLE, CommonEnum.TOPIC.getTitle());
+                bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.TOPIC.getValue());   //传枚举值，再转查找fragment class
+                bundle.putInt(CommonActivity.THEME_ID, mEntityList.get(position).id);
+                mApp.openCommon(HomeActivity.this,bundle);
             }
         });
         //加载数据

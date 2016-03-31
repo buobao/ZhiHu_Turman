@@ -17,19 +17,24 @@ import com.zhihu.turman.app.R;
 import com.zhihu.turman.app.entity.BaseEntity;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscription;
 
 /**
  * Created by dqf on 2016/3/30.
  */
-public class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>> extends Fragment {
+public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>> extends Fragment {
 
     public static final int STATE_LOADING = 0;
     public static final int STATE_NORMAL = 1;
     public static final int STATE_RELOADING = 2;
     public static final int STATE_ERROR = 3;
+    public static final int STATE_NOMOREDATA = 4;
+
+    public static final String THEME_ID = "id";
 
     @Bind(R.id.loading_layout)
     protected LinearLayout mLoadingLayout;
@@ -44,13 +49,21 @@ public class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>>
 
     protected Bundle mBundle;
 
-    protected LinkedList<T> mEntityList;
+    protected LinkedList<T> mEntityList = new LinkedList<>();
     protected A mAdapter;
 
     protected int mCurrStatus = STATE_LOADING;
 
+    protected List<Subscription> mSubscriptions;
+
     protected A getAdapter(){
         return null;
+    }
+
+    protected abstract Subscription loadDate();
+
+    protected void load(){
+        mSubscriptions.add(loadDate());
     }
 
     @Nullable
@@ -72,7 +85,28 @@ public class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>>
             mList.setAdapter(mAdapter);
         }
 
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mEntityList.clear();
+                load();
+            }
+        });
+
+        load();
         return view;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mSubscriptions != null && mSubscriptions.size() > 0) {
+            for (Subscription s:mSubscriptions){
+                if (s!= null && !s.isUnsubscribed()){
+                    s.unsubscribe();
+                }
+            }
+        }
     }
 
     public void setStatus(int status){
@@ -98,7 +132,7 @@ public class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>>
         mCurrStatus = status;
     }
 
-    public void setSrrorMessage(String str) {
+    public void setErrorMessage(String str) {
         mErrorTextView.setText(str);
     }
 

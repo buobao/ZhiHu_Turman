@@ -1,6 +1,7 @@
 package com.zhihu.turman.app.net;
 
 import com.zhihu.turman.app.net.service.ThemeService;
+import com.zhihu.turman.app.net.service.TopicService;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -16,8 +17,10 @@ public class NetworkClient {
     public static final String BASE_URL = "http://news-at.zhihu.com/api/";
 
     public static final String THEMES = "4/themes";
+    public static final String TOPIC = "4/theme/{id}";
 
     private static ThemeService themeService = null;
+    private static TopicService topicService = null;
     private NetworkClient(){}
 
     public static Retrofit getClient(){
@@ -40,6 +43,13 @@ public class NetworkClient {
             themeService = getClient().create(ThemeService.class);
         }
         return themeService;
+    }
+
+    public static TopicService getTopicService(){
+        if (topicService == null) {
+            topicService = getClient().create(TopicService.class);
+        }
+        return topicService;
     }
 
 

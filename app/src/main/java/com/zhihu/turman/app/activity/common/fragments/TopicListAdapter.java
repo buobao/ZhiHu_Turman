@@ -1,6 +1,7 @@
 package com.zhihu.turman.app.activity.common.fragments;
 
 import android.content.Context;
+import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -27,22 +28,50 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        super.onBindViewHolder(holder, position);
         Topic entity = mList.get(position);
 
         holder.title.setText(entity.title);
 
         int index = 0;
-        for (String url: entity.images) {
-            Glide.with(mContext)
-                    .load(url)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .placeholder(R.drawable.img_circle_placeholder)
-                    .error(R.drawable.default_photo)
-                    .centerCrop()
-                    .transform(new CropCircleTransformation(mContext))
-                    .into(holder.photo);
-
+        if (entity.images != null && entity.images.size() > 0) {
+            for (String url : entity.images) {
+                if (index == 5) {
+                    break;
+                }
+                Glide.with(mContext)
+                        .load(url)
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                        .placeholder(R.drawable.img_circle_placeholder)
+                        .error(R.drawable.default_photo)
+                        .centerCrop()
+                        .transform(new CropCircleTransformation(mContext))
+                        .into(holder.image[index]);
+                index++;
+            }
+        } else {
+            for (int i=0;i<5;i++){
+                holder.image[i].setVisibility(View.GONE);
+            }
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by dqf on 2016/3/30.
  */
-public class BaseListAdapter<T extends BaseEntity> extends RecyclerView.Adapter<BaseListAdapter.ViewHolder> {
+public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView.Adapter<BaseListAdapter.ViewHolder> {
 
     public static final int ITEM_LAYOUT_NORMAL = 0;
     public static final int ITEM_LAYOUT_SIMPLE = 1;
@@ -53,10 +53,6 @@ public class BaseListAdapter<T extends BaseEntity> extends RecyclerView.Adapter<
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-    }
-
-    @Override
     public int getItemCount() {
         return mList.size();
     }
@@ -71,11 +67,7 @@ public class BaseListAdapter<T extends BaseEntity> extends RecyclerView.Adapter<
         public TextView creater;
         public TextView date;
 
-        public ImageView image1;
-        public ImageView image2;
-        public ImageView image3;
-        public ImageView image4;
-        public ImageView image5;
+        public ImageView[] image;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -92,11 +84,11 @@ public class BaseListAdapter<T extends BaseEntity> extends RecyclerView.Adapter<
 
             if (mType == ITEM_LAYOUT_SIMPLE) {
                 title = (TextView) itemView.findViewById(R.id.item_title);
-                image1 = (ImageView) itemView.findViewById(R.id.item_image1);
-                image2 = (ImageView) itemView.findViewById(R.id.item_image2);
-                image3 = (ImageView) itemView.findViewById(R.id.item_image3);
-                image4 = (ImageView) itemView.findViewById(R.id.item_image4);
-                image5 = (ImageView) itemView.findViewById(R.id.item_image5);
+                image[0] = (ImageView) itemView.findViewById(R.id.item_image1);
+                image[1] = (ImageView) itemView.findViewById(R.id.item_image2);
+                image[2] = (ImageView) itemView.findViewById(R.id.item_image3);
+                image[3] = (ImageView) itemView.findViewById(R.id.item_image4);
+                image[4] = (ImageView) itemView.findViewById(R.id.item_image5);
             }
         }
     }
