@@ -8,7 +8,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.zhihu.turman.app.R;
 import com.zhihu.turman.app.base.BaseListAdapter;
 import com.zhihu.turman.app.entity.Topic;
-import com.zhihu.turman.app.utils.CropCircleTransformation;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(BaseListAdapter.ViewHolder holder, int position) {
         Topic entity = mList.get(position);
 
         holder.title.setText(entity.title);
@@ -44,7 +43,6 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
                         .placeholder(R.drawable.img_circle_placeholder)
                         .error(R.drawable.default_photo)
                         .centerCrop()
-                        .transform(new CropCircleTransformation(mContext))
                         .into(holder.image[index]);
                 index++;
             }

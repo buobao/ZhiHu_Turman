@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.zhihu.turman.app.R;
 import com.zhihu.turman.app.entity.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
 
     protected int mCurrStatus = STATE_LOADING;
 
-    protected List<Subscription> mSubscriptions;
+    protected List<Subscription> mSubscriptions = new ArrayList<>();
 
     protected A getAdapter(){
         return null;
@@ -70,7 +71,7 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_base_list,container,false);
-        ButterKnife.bind(getActivity());
+        ButterKnife.bind(this,view);
 
         mBundle = getArguments();
         mLayoutManager = new LinearLayoutManager(getActivity());

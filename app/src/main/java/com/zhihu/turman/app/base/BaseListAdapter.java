@@ -67,7 +67,7 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
         public TextView creater;
         public TextView date;
 
-        public ImageView[] image;
+        public ImageView[] image = new ImageView[5];
 
         public ViewHolder(View itemView) {
             super(itemView);
