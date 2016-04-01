@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="200dp">
 
     <TextView
         android:id="@+id/item_title"
@@ -14,9 +14,6 @@
         android:textColor="@android:color/black"
         />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_margin="5dp"
             android:layout_width="match_parent"
@@ -39,17 +36,6 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 />
-            <ImageView
-                android:id="@+id/item_image4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                />
-            <ImageView
-                android:id="@+id/item_image5"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                />
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

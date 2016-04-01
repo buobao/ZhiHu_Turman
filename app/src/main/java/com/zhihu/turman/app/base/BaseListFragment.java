@@ -1,5 +1,6 @@
 package com.zhihu.turman.app.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -46,7 +47,7 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
     @Bind(R.id.data_list)
     protected RecyclerView mList;
 
-    protected LinearLayoutManager mLayoutManager;
+    protected MyLayoutManager mLayoutManager;
 
     protected Bundle mBundle;
 
@@ -74,12 +75,13 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
         ButterKnife.bind(this,view);
 
         mBundle = getArguments();
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        mLayoutManager = new MyLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mLayoutManager.setAutoMeasureEnabled(false);
         mList.setLayoutManager(mLayoutManager);
-        mList.setHasFixedSize(true);
+        mList.setHasFixedSize(false);
         mList.setItemAnimator(new DefaultItemAnimator());
-        mList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
+        mList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST));
 
         mAdapter = getAdapter();
         if (mAdapter != null) {
@@ -135,6 +137,119 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
 
     public void setErrorMessage(String str) {
         mErrorTextView.setText(str);
+    }
+
+
+    //这里遇到一个问题：RecyclerView中每个item都会占一屏的高度，所以重写layoutmanager来解决这个问题
+    public class SyLinearLayoutManager extends LinearLayoutManager {
+
+        private static final int CHILD_WIDTH = 0;
+        private static final int CHILD_HEIGHT = 1;
+        private static final int DEFAULT_CHILD_SIZE = 100;
+
+        private final int[] childDimensions = new int[2];
+
+        private int childSize = DEFAULT_CHILD_SIZE;
+        private boolean hasChildSize;
+
+        @SuppressWarnings("UnusedDeclaration")
+        public SyLinearLayoutManager(Context context) {
+            super(context);
+        }
+
+        @SuppressWarnings("UnusedDeclaration")
+        public SyLinearLayoutManager(Context context, int orientation, boolean reverseLayout) {
+            super(context, orientation, reverseLayout);
+        }
+
+        private int[] mMeasuredDimension = new int[2];
+
+
+        @Override
+        public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+            final int widthMode = View.MeasureSpec.getMode(widthSpec);
+            final int heightMode = View.MeasureSpec.getMode(heightSpec);
+            final int widthSize = View.MeasureSpec.getSize(widthSpec);
+            final int heightSize = View.MeasureSpec.getSize(heightSpec);
+            int width = 0;
+            int height = 0;
+            for (int i = 0; i < getItemCount(); i++) {
+                try {
+                    measureScrapChild(recycler, i,
+                            widthSpec,
+                            View.MeasureSpec.makeMeasureSpec(i, View.MeasureSpec.UNSPECIFIED),
+                            mMeasuredDimension);
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
+                }
+
+                if (getOrientation() == HORIZONTAL) {
+                    width = width + mMeasuredDimension[0];
+                    if (i == 0) {
+                        height = mMeasuredDimension[1];
+                    }
+                } else {
+                    height = height + mMeasuredDimension[1];
+                    if (i == 0) {
+                        width = mMeasuredDimension[0];
+                    }
+                }
+            }
+
+            switch (widthMode) {
+                case View.MeasureSpec.EXACTLY:
+                case View.MeasureSpec.AT_MOST:
+                case View.MeasureSpec.UNSPECIFIED:
+            }
+
+            switch (heightMode) {
+                case View.MeasureSpec.EXACTLY:
+                    height = heightSize;
+                case View.MeasureSpec.AT_MOST:
+                case View.MeasureSpec.UNSPECIFIED:
+            }
+            setMeasuredDimension(widthSpec, height);
+
+        }
+
+        private void measureScrapChild(RecyclerView.Recycler recycler, int position, int widthSpec, int heightSpec, int[] measuredDimension) {
+            View view = recycler.getViewForPosition(position);
+
+            if (view != null) {
+                RecyclerView.LayoutParams p = (RecyclerView.LayoutParams) view.getLayoutParams();
+                int childHeightSpec = ViewGroup.getChildMeasureSpec(heightSpec,
+                        getPaddingTop() + getPaddingBottom(), p.height);
+                view.measure(widthSpec, childHeightSpec);
+                measuredDimension[0] = view.getMeasuredWidth() + p.leftMargin + p.rightMargin;
+                measuredDimension[1] = view.getMeasuredHeight() + p.bottomMargin + p.topMargin;
+                recycler.recycleView(view);
+            }
+        }
+
+        @Override
+        public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+            super.onLayoutChildren(recycler, state);
+        }
+    }
+
+    public class MyLayoutManager extends LinearLayoutManager {
+
+        public MyLayoutManager(Context context) {
+            super(context);
+            // TODO Auto-generated constructor stub
+        }
+
+
+        @Override
+        public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec,int heightSpec) {
+            View view = recycler.getViewForPosition(0);
+            if(view != null){
+                measureChild(view, widthSpec, heightSpec);
+                int measuredWidth = View.MeasureSpec.getSize(widthSpec);
+                int measuredHeight = view.getMeasuredHeight();
+                setMeasuredDimension(measuredWidth, measuredHeight);
+            }
+        }
     }
 
 }

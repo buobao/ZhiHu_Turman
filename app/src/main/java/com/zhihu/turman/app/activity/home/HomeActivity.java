@@ -84,7 +84,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
-                bundle.putInt(CommonActivity.COMMON_TITLE, CommonEnum.TOPIC.getTitle());
+                bundle.putString(CommonActivity.COMMON_TITLE, mEntityList.get(position).name);
                 bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.TOPIC.getValue());   //传枚举值，再转查找fragment class
                 bundle.putInt(CommonActivity.THEME_ID, mEntityList.get(position).id);
                 mApp.openCommon(HomeActivity.this,bundle);

@@ -39,7 +39,7 @@ public class CommonActivity extends AppCompatActivity {
         mBundle = getIntent().getExtras();
         mToolbar.setNavigationIcon(R.drawable.back32);
         if (mBundle != null) {
-            mToolbar.setTitle(mBundle.getInt(COMMON_TITLE));
+            mToolbar.setTitle(mBundle.getString(COMMON_TITLE));
             try {
                 Fragment fragment = (Fragment) CommonEnum.getPageByValue(mBundle.getInt(FRAGMENT_CLZ)).getClz().newInstance();
                 mFragmentManager = getSupportFragmentManager();

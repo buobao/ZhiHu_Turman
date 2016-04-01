@@ -30,7 +30,9 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
         Topic entity = mList.get(position);
 
         holder.title.setText(entity.title);
-
+        for (int i=0;i<3;i++){
+            holder.image[i].setVisibility(View.GONE);
+        }
         int index = 0;
         if (entity.images != null && entity.images.size() > 0) {
             for (String url : entity.images) {
@@ -44,11 +46,8 @@ public class TopicListAdapter extends BaseListAdapter<Topic> {
                         .error(R.drawable.default_photo)
                         .centerCrop()
                         .into(holder.image[index]);
+                holder.image[index].setVisibility(View.VISIBLE);
                 index++;
-            }
-        } else {
-            for (int i=0;i<5;i++){
-                holder.image[i].setVisibility(View.GONE);
             }
         }
     }

@@ -67,7 +67,7 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
         public TextView creater;
         public TextView date;
 
-        public ImageView[] image = new ImageView[5];
+        public ImageView[] image = new ImageView[3];
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -87,8 +87,6 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
                 image[0] = (ImageView) itemView.findViewById(R.id.item_image1);
                 image[1] = (ImageView) itemView.findViewById(R.id.item_image2);
                 image[2] = (ImageView) itemView.findViewById(R.id.item_image3);
-                image[3] = (ImageView) itemView.findViewById(R.id.item_image4);
-                image[4] = (ImageView) itemView.findViewById(R.id.item_image5);
             }
         }
     }
