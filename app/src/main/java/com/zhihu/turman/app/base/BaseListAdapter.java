@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhihu.turman.app.R;
@@ -24,6 +25,8 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
     protected List<T> mList;
     protected Context mContext;
     private int mType;
+
+    private OnItemClickListener onItemClickListener = null;
 
     public int getType(){
         return ITEM_LAYOUT_NORMAL;
@@ -59,6 +62,7 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         public TextView title;
+        public LinearLayout layout;
 
         public TextView vote;
         public ImageView photo;
@@ -88,7 +92,29 @@ public abstract class BaseListAdapter<T extends BaseEntity> extends RecyclerView
                 image[1] = (ImageView) itemView.findViewById(R.id.item_image2);
                 image[2] = (ImageView) itemView.findViewById(R.id.item_image3);
             }
+
+            layout = (LinearLayout) itemView.findViewById(R.id.item_layout);
+            if (onItemClickListener != null) {
+                layout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        onItemClickListener.OnClick(getAdapterPosition());
+                    }
+                });
+            }
         }
+    }
+
+    public interface OnItemClickListener {
+        void OnClick(int position);
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
 

@@ -1,5 +1,10 @@
 package com.zhihu.turman.app.activity.common.fragments;
 
+import android.os.Bundle;
+import android.widget.Toast;
+
+import com.zhihu.turman.app.activity.common.CommonActivity;
+import com.zhihu.turman.app.activity.common.CommonEnum;
 import com.zhihu.turman.app.base.BaseListFragment;
 import com.zhihu.turman.app.entity.Topic;
 import com.zhihu.turman.app.entity.TopicResult;
@@ -57,5 +62,14 @@ public class TopicListFragment extends BaseListFragment<Topic,TopicListAdapter> 
                     });
         }
         return null;
+    }
+
+    @Override
+    protected void onItemClick(int position) {
+        Bundle bundle = new Bundle();
+        bundle.putString(CommonActivity.COMMON_TITLE, "新闻");
+        bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.NEWS.getValue());
+        bundle.putInt(CommonActivity.NEWS_ID, mEntityList.get(position).id);
+        mApp.openCommon(getActivity(),bundle);
     }
 }

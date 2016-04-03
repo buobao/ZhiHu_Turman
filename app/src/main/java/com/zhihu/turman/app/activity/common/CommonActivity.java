@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.base.BaseContextFragment;
 import com.zhihu.turman.app.base.BaseListFragment;
 
 import butterknife.Bind;
@@ -24,6 +25,7 @@ public class CommonActivity extends AppCompatActivity {
     public static final String COMMON_TITLE= "title";
     public static final String FRAGMENT_CLZ = "clz";
     public static final String THEME_ID = "id";
+    public static final String NEWS_ID = "nId";
 
     @Bind(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -47,6 +49,11 @@ public class CommonActivity extends AppCompatActivity {
                 if (mBundle.getInt(THEME_ID, -1) > 0){
                     Bundle bundle = new Bundle();
                     bundle.putInt(BaseListFragment.THEME_ID, mBundle.getInt(THEME_ID));
+                    fragment.setArguments(bundle);
+                }
+                if (mBundle.getInt(NEWS_ID, -1) > 0){
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(BaseContextFragment.ENTITY_ID, mBundle.getInt(NEWS_ID));
                     fragment.setArguments(bundle);
                 }
                 transaction.replace(R.id.common_fragment, fragment);

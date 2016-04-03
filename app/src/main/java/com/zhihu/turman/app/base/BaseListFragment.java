@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.TurmanApplication;
 import com.zhihu.turman.app.entity.BaseEntity;
 
 import java.util.ArrayList;
@@ -29,6 +30,8 @@ import rx.Subscription;
  * Created by dqf on 2016/3/30.
  */
 public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAdapter<T>> extends Fragment {
+
+    protected TurmanApplication mApp;
 
     public static final int STATE_LOADING = 0;
     public static final int STATE_NORMAL = 1;
@@ -47,7 +50,7 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
     @Bind(R.id.data_list)
     protected RecyclerView mList;
 
-    protected MyLayoutManager mLayoutManager;
+    protected SyLinearLayoutManager mLayoutManager;
 
     protected Bundle mBundle;
 
@@ -74,8 +77,10 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
         View view = inflater.inflate(R.layout.frg_base_list,container,false);
         ButterKnife.bind(this,view);
 
+        mApp = (TurmanApplication) getActivity().getApplication();
+
         mBundle = getArguments();
-        mLayoutManager = new MyLayoutManager(getActivity());
+        mLayoutManager = new SyLinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mLayoutManager.setAutoMeasureEnabled(false);
         mList.setLayoutManager(mLayoutManager);
@@ -86,6 +91,12 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
         mAdapter = getAdapter();
         if (mAdapter != null) {
             mList.setAdapter(mAdapter);
+            mAdapter.setOnItemClickListener(new BaseListAdapter.OnItemClickListener() {
+                @Override
+                public void OnClick(int position) {
+                    onItemClick(position);
+                }
+            });
         }
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -99,6 +110,8 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
         load();
         return view;
     }
+
+    protected abstract void onItemClick(int position);
 
     @Override
     public void onDestroy() {
