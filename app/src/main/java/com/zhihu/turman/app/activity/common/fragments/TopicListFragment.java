@@ -10,6 +10,8 @@ import com.zhihu.turman.app.entity.Topic;
 import com.zhihu.turman.app.entity.TopicResult;
 import com.zhihu.turman.app.net.NetworkClient;
 
+import java.util.List;
+
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -70,6 +72,10 @@ public class TopicListFragment extends BaseListFragment<Topic,TopicListAdapter> 
         bundle.putString(CommonActivity.COMMON_TITLE, "新闻");
         bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.NEWS.getValue());
         bundle.putInt(CommonActivity.NEWS_ID, mEntityList.get(position).id);
-        mApp.openCommon(getActivity(),bundle);
+        List<String> imgs = mEntityList.get(position).images;
+        if (imgs != null && imgs.size()>0) {
+            bundle.putString(CommonActivity.NEWS_PIC, imgs.get(0));
+        }
+        mApp.openCommon(getActivity(), bundle);
     }
 }

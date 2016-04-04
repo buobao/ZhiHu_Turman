@@ -1,6 +1,7 @@
 package com.zhihu.turman.app.activity.common.fragments;
 
 import android.view.View;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +40,7 @@ public class NewsFragment extends BaseContextFragment<News> {
     @Override
     protected void fillUI() {
         if (mEntity != null) {
-            String pic_url = mEntity.theme.thumbnail;
+            String pic_url = "".equals(mPicUrl) ? mEntity.theme.thumbnail:mPicUrl;
             if (!"".equals(pic_url)) {
                 Glide.with(getActivity())
                         .load(pic_url)
@@ -54,8 +55,12 @@ public class NewsFragment extends BaseContextFragment<News> {
 
             String html = mEntity.body;
             html = "<html><title></title><body>"+html+"</body></html>";
-            mWeb.loadDataWithBaseURL(null,html,"text/html","utf-8", null);
+            mWeb.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
             mWeb.getSettings().setJavaScriptEnabled(true);
+            mWeb.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+            mWeb.getSettings().setLoadWithOverviewMode(true);
+//            mWeb.getSettings().setUseWideViewPort(true);
+//            mWeb.getSettings().setBuiltInZoomControls(true);
         }
 
     }

@@ -28,10 +28,12 @@ import rx.schedulers.Schedulers;
 public abstract class BaseContextFragment<T extends BaseEntity> extends Fragment {
 
     public static final String ENTITY_ID = "id";
+    public static final String ENTITY_PIC = "pic";
 
     protected Bundle mBundle;
     protected T mEntity;
     protected List<Subscription> mSubscriptions = new ArrayList<>();
+    protected String mPicUrl = null;
 
     protected int getLayout(){
         return -1;
@@ -47,6 +49,7 @@ public abstract class BaseContextFragment<T extends BaseEntity> extends Fragment
         if (id > 0) {
             mSubscriptions.add(loadTask(id));
         }
+        mPicUrl = mBundle.getString(ENTITY_PIC, "");
         return view;
     }
 

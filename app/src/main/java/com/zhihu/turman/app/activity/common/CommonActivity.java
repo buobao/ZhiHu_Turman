@@ -26,6 +26,7 @@ public class CommonActivity extends AppCompatActivity {
     public static final String FRAGMENT_CLZ = "clz";
     public static final String THEME_ID = "id";
     public static final String NEWS_ID = "nId";
+    public static final String NEWS_PIC = "pic";
 
     @Bind(R.id.toolbar)
     protected Toolbar mToolbar;
@@ -46,16 +47,17 @@ public class CommonActivity extends AppCompatActivity {
                 Fragment fragment = (Fragment) CommonEnum.getPageByValue(mBundle.getInt(FRAGMENT_CLZ)).getClz().newInstance();
                 mFragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
+                Bundle bundle = new Bundle();
                 if (mBundle.getInt(THEME_ID, -1) > 0){
-                    Bundle bundle = new Bundle();
                     bundle.putInt(BaseListFragment.THEME_ID, mBundle.getInt(THEME_ID));
-                    fragment.setArguments(bundle);
                 }
                 if (mBundle.getInt(NEWS_ID, -1) > 0){
-                    Bundle bundle = new Bundle();
                     bundle.putInt(BaseContextFragment.ENTITY_ID, mBundle.getInt(NEWS_ID));
-                    fragment.setArguments(bundle);
+                    if (!"".equals(mBundle.getString(NEWS_PIC, ""))){
+                        bundle.putString(BaseContextFragment.ENTITY_PIC, mBundle.getString(NEWS_PIC));
+                    }
                 }
+                fragment.setArguments(bundle);
                 transaction.replace(R.id.common_fragment, fragment);
                 transaction.commit();
             } catch (InstantiationException e) {
