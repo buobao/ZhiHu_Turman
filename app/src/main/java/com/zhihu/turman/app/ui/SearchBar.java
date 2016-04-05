@@ -3,6 +3,7 @@ package com.zhihu.turman.app.ui;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class SearchBar extends LinearLayout implements View.OnClickListener {
     private EditText mSearchContext;
     private TextView mSearchBtn;
     private Context context;
+    private InputMethodManager mInputMethodManager;
 
     private int mBackgroundColor=-1;
 
@@ -39,6 +41,7 @@ public class SearchBar extends LinearLayout implements View.OnClickListener {
 
     private void init(Context context) {
         this.context = context;
+        mInputMethodManager =(InputMethodManager)context.getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = View.inflate(context, R.layout.view_searchbar,null);
         mSearchContext = (EditText) view.findViewById(R.id.frg_list_search_input);
         mSearchBtn = (TextView) view.findViewById(R.id.frg_list_search_btn);
@@ -49,6 +52,7 @@ public class SearchBar extends LinearLayout implements View.OnClickListener {
             LinearLayout layout = (LinearLayout) view.findViewById(R.id.frg_list_search_layout);
             layout.setBackgroundColor(mBackgroundColor);
         }
+
         addView(view);
     }
 
@@ -65,6 +69,7 @@ public class SearchBar extends LinearLayout implements View.OnClickListener {
         //这里写查询过程
         if (searchOption != null) {
             searchOption.search();
+            mInputMethodManager.hideSoftInputFromWindow(mSearchBtn.getWindowToken(), 0);
         }
     }
 

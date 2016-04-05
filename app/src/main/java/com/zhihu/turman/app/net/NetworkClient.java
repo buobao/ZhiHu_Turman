@@ -1,5 +1,6 @@
 package com.zhihu.turman.app.net;
 
+import com.zhihu.turman.app.net.service.MapService;
 import com.zhihu.turman.app.net.service.ThemeService;
 import com.zhihu.turman.app.net.service.TopicService;
 import com.zhihu.turman.app.net.service.WeatherService;
@@ -15,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkClient {
     private static Retrofit client = null;
     private static Retrofit onebox_client = null;
+    private static Retrofit map_client = null;
 
     public static final String BASE_URL = "http://news-at.zhihu.com/api/";
     public static final String ONEBOX_URL = "http://op.juhe.cn/onebox/";
@@ -30,9 +32,11 @@ public class NetworkClient {
 
     public static final String LOCATION = "geocode/json";
 
+
     private static ThemeService themeService = null;
     private static TopicService topicService = null;
     private static WeatherService weatherService = null;
+    private static MapService mapService = null;
     private NetworkClient(){}
 
     public static Retrofit getClient(){
@@ -65,6 +69,21 @@ public class NetworkClient {
         return onebox_client;
     }
 
+    public static Retrofit getMapClient(){
+        OkHttpClient okHttpClient = new OkHttpClient();
+
+        if (map_client == null) {
+            map_client = new Retrofit.Builder()
+                    .baseUrl(MAP_URL)
+                    .client(okHttpClient)
+                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .build();
+        }
+
+        return map_client;
+    }
+
     public static ThemeService getThemeService(){
         if (themeService == null){
             themeService = getClient().create(ThemeService.class);
@@ -86,5 +105,11 @@ public class NetworkClient {
         return weatherService;
     }
 
+    public static MapService getMapService(){
+        if (mapService == null) {
+            mapService = getMapClient().create(MapService.class);
+        }
+        return mapService;
+    }
 
 }

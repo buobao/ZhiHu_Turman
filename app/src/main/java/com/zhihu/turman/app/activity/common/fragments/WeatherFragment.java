@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.entity.Map.LocationName;
+import com.zhihu.turman.app.entity.MapResult;
 import com.zhihu.turman.app.entity.WeatherResult;
 import com.zhihu.turman.app.entity.weather.FutureWeather;
 import com.zhihu.turman.app.net.NetworkClient;
@@ -107,7 +109,64 @@ public class WeatherFragment extends Fragment {
         View view = inflater.inflate(R.layout.frg_weather_context, container, false);
         ButterKnife.bind(this, view);
 
-        loadEntity();
+        mSearchBar.setSearchOption(new SearchBar.SearchOption() {
+            @Override
+            public void search() {
+                String tmp_str = mSearchBar.getSearchString();
+                if (!"".equals(tmp_str)) {
+                    mSearchString = tmp_str;
+                    loadEntity();
+                }
+            }
+        });
+
+        if (mSearchString == null) {
+            Location location = LocationUtils.getLocation(getActivity());
+            if (location != null) {
+                Map<String,Object> sub_params = new HashMap<>();
+                sub_params.put("latlng", location.getLatitude() + "," + location.getLongitude());
+                sub_params.put("sensor",true);
+                sub_params.put("language","zh-CN");
+                mSubscriptions.add(
+                        Observable.just(sub_params)
+                                .flatMap(new Func1<Map<String, Object>, Observable<MapResult>>() {
+                                    @Override
+                                    public Observable<MapResult> call(Map<String, Object> stringObjectMap) {
+                                        return NetworkClient.getMapService().getAddress((String)stringObjectMap.get("latlng"),(boolean)stringObjectMap.get("sensor"),(String)stringObjectMap.get("language"));
+                                    }
+                                })
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Subscriber<MapResult>() {
+                                    @Override
+                                    public void onCompleted() {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    @Override
+                                    public void onNext(MapResult mapResult) {
+                                        if ("OK".equals(mapResult.status)){
+                                            for (LocationName n : mapResult.results.get(0).address_components) {
+                                                if ("locality".equals(n.types.get(0))) {
+                                                    mSearchString = n.short_name;
+                                                    break;
+                                                }
+                                            }
+                                            loadEntity();
+                                        }
+                                    }
+                                })
+                );
+            }
+        } else {
+            loadEntity();
+        }
+
         return view;
     }
 
@@ -125,14 +184,6 @@ public class WeatherFragment extends Fragment {
 
     private void loadEntity() {
         Map<String, String> params = new HashMap<>();
-        if (mSearchString == null) {
-            Location location = LocationUtils.getLocation(getActivity());
-            if (location != null) {
-                double a = location.getLatitude();  //纬度
-                double b = location.getLongitude(); //经度
-            }
-            mSearchString = "上海";
-        }
         params.put("cityname", mSearchString);
         params.put("key", NetworkClient.DATA_KEY);
         mSubscriptions.add(
