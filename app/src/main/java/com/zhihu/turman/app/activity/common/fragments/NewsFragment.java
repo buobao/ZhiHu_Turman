@@ -1,6 +1,5 @@
 package com.zhihu.turman.app.activity.common.fragments;
 
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ImageView;
@@ -53,9 +52,10 @@ public class NewsFragment extends BaseContextFragment<News> {
 
             mTitle.setText(mEntity.title);
 
-            String html = mEntity.body;
-            html = "<html><title></title><body>"+html+"</body></html>";
-            mWeb.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+//            String html = mEntity.body;
+//            html = "<html><title></title><body>"+html+"</body></html>";
+            //mWeb.loadDataWithBaseURL(null, html, "text/html", "utf-8", null);
+            mWeb.loadUrl(mEntity.share_url);
             mWeb.getSettings().setJavaScriptEnabled(true);
             mWeb.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
             mWeb.getSettings().setLoadWithOverviewMode(true);
