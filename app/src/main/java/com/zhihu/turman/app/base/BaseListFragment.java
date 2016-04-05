@@ -86,7 +86,7 @@ public abstract class BaseListFragment<T extends BaseEntity,A extends BaseListAd
         mList.setLayoutManager(mLayoutManager);
         mList.setHasFixedSize(false);
         mList.setItemAnimator(new DefaultItemAnimator());
-        mList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.HORIZONTAL_LIST));
+        mList.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
 
         mAdapter = getAdapter();
         if (mAdapter != null) {

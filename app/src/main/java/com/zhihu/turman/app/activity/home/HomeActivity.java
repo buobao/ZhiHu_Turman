@@ -151,8 +151,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
+        if (id == R.id.nav_weather) {
+            Bundle bundle = new Bundle();
+            bundle.putString(CommonActivity.COMMON_TITLE, "天气查询");
+            bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.WEATHER.getValue());   //传枚举值，再转查找fragment class
+            mApp.openCommon(HomeActivity.this,bundle);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {

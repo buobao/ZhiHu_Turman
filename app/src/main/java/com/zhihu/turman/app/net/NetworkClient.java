@@ -18,13 +18,17 @@ public class NetworkClient {
 
     public static final String BASE_URL = "http://news-at.zhihu.com/api/";
     public static final String ONEBOX_URL = "http://op.juhe.cn/onebox/";
+    public static final String MAP_URL = "http://maps.google.cn/maps/api/";
+
     public static final String DATA_KEY = "bbf1715173894b79982cdb42d59a8378";
 
     public static final String THEMES = "4/themes";          //获取主题
     public static final String TOPIC = "4/theme/{id}";       //指定主题下的新闻
     public static final String NEWS = "4/news/{id}";         //获取指定新闻内容
 
-    public static final String WEATHER = "weather/query?";   //查询天气
+    public static final String WEATHER = "weather/query";   //查询天气
+
+    public static final String LOCATION = "geocode/json";
 
     private static ThemeService themeService = null;
     private static TopicService topicService = null;
