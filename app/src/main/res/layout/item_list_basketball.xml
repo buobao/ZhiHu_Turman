@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/basketball_item"
+    android:layout_marginBottom="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp">
+
+        <TextView
+            android:id="@+id/player1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            />
+        <ImageView
+            android:id="@+id/logo1"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_toRightOf="@+id/player1"
+            android:layout_centerVertical="true"
+            />
+
+        <LinearLayout
+            android:id="@+id/score_layout"
+            android:layout_toRightOf="@+id/logo1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/game_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                />
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                />
+            <TextView
+                android:id="@+id/status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/basketball_score_background"
+                />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/logo2"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_toRightOf="@+id/score_layout"
+            android:layout_centerVertical="true"
+            />
+        <TextView
+            android:id="@+id/player2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/logo2"
+            android:layout_centerVertical="true"
+            android:textSize="18sp"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="5dp">
+        <TextView
+            android:id="@+id/web1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="技术统计"
+            />
+
+        <TextView
+            android:id="@+id/web2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="视频集锦"
+            android:layout_toRightOf="@+id/web1"
+            android:layout_marginLeft="10dp"
+            />
+    </RelativeLayout>
+</LinearLayout>

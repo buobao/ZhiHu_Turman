@@ -156,8 +156,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             bundle.putString(CommonActivity.COMMON_TITLE, "天气查询");
             bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.WEATHER.getValue());   //传枚举值，再转查找fragment class
             mApp.openCommon(HomeActivity.this,bundle);
-        } else if (id == R.id.nav_gallery) {
-
+        } else if (id == R.id.nav_nba) {
+            Bundle bundle = new Bundle();
+            bundle.putString(CommonActivity.COMMON_TITLE, "NBA赛事");
+            bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.BASKETBALL.getValue());   //传枚举值，再转查找fragment class
+            mApp.openCommon(HomeActivity.this,bundle);
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {

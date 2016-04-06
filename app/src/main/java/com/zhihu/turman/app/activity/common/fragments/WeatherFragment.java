@@ -185,7 +185,7 @@ public class WeatherFragment extends Fragment {
     private void loadEntity() {
         Map<String, String> params = new HashMap<>();
         params.put("cityname", mSearchString);
-        params.put("key", NetworkClient.DATA_KEY);
+        params.put("key", NetworkClient.WEATHER_KEY);
         mSubscriptions.add(
                 Observable.just(params)
                         .flatMap(new Func1<Map<String, String>, Observable<WeatherResult>>() {

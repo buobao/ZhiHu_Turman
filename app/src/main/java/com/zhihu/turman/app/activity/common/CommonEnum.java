@@ -1,6 +1,7 @@
 package com.zhihu.turman.app.activity.common;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.activity.common.fragments.BasketballFragment;
 import com.zhihu.turman.app.activity.common.fragments.NewsFragment;
 import com.zhihu.turman.app.activity.common.fragments.TopicListFragment;
 import com.zhihu.turman.app.activity.common.fragments.WeatherFragment;
@@ -11,7 +12,8 @@ import com.zhihu.turman.app.activity.common.fragments.WeatherFragment;
 public enum CommonEnum {
     TOPIC(0, R.string.topic_1,TopicListFragment.class),
     NEWS(1,R.string.topic_1, NewsFragment.class),
-    WEATHER(2,R.string.topic_1, WeatherFragment.class);
+    WEATHER(2,R.string.topic_1, WeatherFragment.class),
+    BASKETBALL(3,R.string.topic_1, BasketballFragment.class);
 
     private int title;
     private Class<?> clz;
