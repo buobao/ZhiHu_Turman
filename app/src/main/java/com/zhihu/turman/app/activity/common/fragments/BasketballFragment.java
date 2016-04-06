@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.zhihu.turman.app.R;
@@ -34,6 +35,10 @@ import rx.schedulers.Schedulers;
 public class BasketballFragment extends Fragment {
     @Bind(R.id.day_items)
     protected LinearLayout mLayout;
+    @Bind(R.id.data_view)
+    protected ScrollView mDataView;
+    @Bind(R.id.loading_layout)
+    protected LinearLayout mLoadingLayout;
 
     private List<Subscription> mSubscriptions = new ArrayList<>();
 
@@ -77,6 +82,8 @@ public class BasketballFragment extends Fragment {
                         } else {
                             Toast.makeText(context,"加载数据失败",Toast.LENGTH_SHORT).show();
                         }
+                        mDataView.setVisibility(View.VISIBLE);
+                        mLoadingLayout.setVisibility(View.GONE);
                     }
                 })
         );

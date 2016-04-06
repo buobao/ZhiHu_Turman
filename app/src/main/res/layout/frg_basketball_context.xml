@@ -2,11 +2,15 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
     <ScrollView
+        android:id="@+id/data_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        >
 
         <LinearLayout
             android:id="@+id/day_items"
@@ -19,5 +23,26 @@
         </LinearLayout>
 
     </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/loading_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        >
+        <ProgressBar
+            style="@style/Widget.ProgressBar"
+            android:layout_width="32.0dip"
+            android:layout_height="32.0dip"
+            android:layout_centerVertical="true"
+            android:indeterminate="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="加载中..."
+            />
+    </LinearLayout>
 
 </LinearLayout>
