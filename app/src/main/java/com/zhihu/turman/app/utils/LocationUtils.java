@@ -19,8 +19,8 @@ public class LocationUtils {
             Location location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
             if (location == null) {
                 location = locationManager.getLastKnownLocation(locationManager.NETWORK_PROVIDER);
-                return location;
             }
+            return location;
         }
         return null;
     }

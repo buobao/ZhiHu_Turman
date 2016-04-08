@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zhihu.turman.app.R;
+import com.zhihu.turman.app.entity.weather.FutureWeatherInfo;
 
 /**
  * Created by dqf on 2016/4/5.
@@ -25,6 +26,12 @@ public class WeatherLayout extends LinearLayout {
     private TextView mNight3;
     private TextView mNight4;
     private TextView mNight5;
+    private TextView mDawn1;
+    private TextView mDawn2;
+    private TextView mDawn3;
+    private TextView mDawn4;
+    private TextView mDawn5;
+    private LinearLayout mDawnLayout;
 
     public WeatherLayout(Context context) {
         super(context);
@@ -51,8 +58,35 @@ public class WeatherLayout extends LinearLayout {
         mNight3 = (TextView) view.findViewById(R.id.night_3);
         mNight4 = (TextView) view.findViewById(R.id.night_4);
         mNight5 = (TextView) view.findViewById(R.id.night_5);
+        mDawn1 = (TextView) view.findViewById(R.id.dawn_1);
+        mDawn2 = (TextView) view.findViewById(R.id.dawn_2);
+        mDawn3 = (TextView) view.findViewById(R.id.dawn_3);
+        mDawn4 = (TextView) view.findViewById(R.id.dawn_4);
+        mDawn5 = (TextView) view.findViewById(R.id.dawn_5);
+        mDawnLayout = (LinearLayout) view.findViewById(R.id.dawn_layout);
         setOrientation(VERTICAL);
         addView(view);
+    }
+
+    public void setData(FutureWeatherInfo info){
+        mDay1.setText(info.day.get(1));
+        mDay2.setText(info.day.get(2));
+        mDay3.setText(info.day.get(3));
+        mDay4.setText(info.day.get(4));
+        mDay5.setText(info.day.get(5));
+        mNight1.setText(info.night.get(1));
+        mNight2.setText(info.night.get(2));
+        mNight3.setText(info.night.get(3));
+        mNight4.setText(info.night.get(4));
+        mNight5.setText(info.night.get(5));
+        if (info.dawn != null) {
+            mDawnLayout.setVisibility(VISIBLE);
+            mDawn1.setText(info.dawn.get(1));
+            mDawn2.setText(info.dawn.get(2));
+            mDawn3.setText(info.dawn.get(3));
+            mDawn4.setText(info.dawn.get(4));
+            mDawn5.setText(info.dawn.get(5));
+        }
     }
 
     public void setDay(String str){
@@ -61,41 +95,5 @@ public class WeatherLayout extends LinearLayout {
 
     public void setDate(String str){
         mItemDate.setText(str);
-    }
-
-    public void setDay1(String str){
-        mDay1.setText(str);
-    }
-
-    public void setDay2(String str){
-        mDay2.setText(str);
-    }
-
-    public void setDay3(String str){
-        mDay3.setText(str);
-    }
-
-    public void setDay4(String str){
-        mDay4.setText(str);
-    }
-
-    public void setDay5(String str){
-        mDay5.setText(str);
-    }
-
-    public void setNight1(String str){
-        mNight1.setText(str);
-    }
-    public void setNight2(String str){
-        mNight2.setText(str);
-    }
-    public void setNight3(String str){
-        mNight3.setText(str);
-    }
-    public void setNight4(String str){
-        mNight4.setText(str);
-    }
-    public void setNight5(String str){
-        mNight5.setText(str);
     }
 }

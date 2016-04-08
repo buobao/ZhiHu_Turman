@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="265dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp">
 
     <RelativeLayout
@@ -24,7 +24,6 @@
             android:layout_alignParentRight="true"
             />
     </RelativeLayout>
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,6 +103,95 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/dawn_layout"
+        android:visibility="gone"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="黄昏"
+            android:textSize="16sp"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="天气状况"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/dawn_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最高温度"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/dawn_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风向"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/dawn_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="风速"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/dawn_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日暮"
+                android:layout_marginLeft="5dp"/>
+            <TextView
+                android:id="@+id/dawn_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

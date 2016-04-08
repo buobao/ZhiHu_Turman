@@ -253,16 +253,7 @@ public class WeatherFragment extends Fragment {
             WeatherLayout l = new WeatherLayout(getActivity());
             l.setDate(f.date);
             l.setDay("星期" + f.week);
-            l.setDay1(f.info.day.get(1));
-            l.setDay2(f.info.day.get(2));
-            l.setDay3(f.info.day.get(3));
-            l.setDay4(f.info.day.get(4));
-            l.setDay5(f.info.day.get(5));
-            l.setNight1(f.info.night.get(1));
-            l.setNight2(f.info.night.get(2));
-            l.setNight3(f.info.night.get(3));
-            l.setNight4(f.info.night.get(4));
-            l.setNight5(f.info.night.get(5));
+            l.setData(f.info);
             mLayout.addView(l);
         }
     }
