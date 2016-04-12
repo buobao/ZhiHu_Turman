@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,8 @@ public class BasketballFragment extends Fragment {
     protected ScrollView mDataView;
     @Bind(R.id.loading_layout)
     protected LinearLayout mLoadingLayout;
+    @Bind(R.id.refresh_layout)
+    protected SwipeRefreshLayout mRefreshLayout;
 
     private List<Subscription> mSubscriptions = new ArrayList<>();
 
@@ -47,47 +50,59 @@ public class BasketballFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_basketball_context, container, false);
         ButterKnife.bind(this,view);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                load();
+            }
+        });
+        load();
+        return view;
+    }
+
+    private void load(){
         mSubscriptions.add(
                 Observable.just(NetworkClient.NBA_KEY)
-                .flatMap(new Func1<String, Observable<BasketballResult>>() {
-                    @Override
-                    public Observable<BasketballResult> call(String s) {
-                        return NetworkClient.getBasketballService().getGames(s);
-                    }
-                })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<BasketballResult>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(BasketballResult basketballResult) {
-                        Context context = getActivity();
-                        if (basketballResult.error_code == 0){
-                            mLayout.removeAllViews();
-                            List<GameDay> lists = basketballResult.result.list;
-                            for (int i = lists.size()-1;i>=0;i--){
-                                BasketballDayItem item = new BasketballDayItem(context);
-                                item.setData(lists.get(i));
-                                mLayout.addView(item);
+                        .flatMap(new Func1<String, Observable<BasketballResult>>() {
+                            @Override
+                            public Observable<BasketballResult> call(String s) {
+                                return NetworkClient.getBasketballService().getGames(s);
                             }
-                        } else {
-                            Toast.makeText(context,"加载数据失败",Toast.LENGTH_SHORT).show();
-                        }
-                        mDataView.setVisibility(View.VISIBLE);
-                        mLoadingLayout.setVisibility(View.GONE);
-                    }
-                })
+                        })
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<BasketballResult>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onNext(BasketballResult basketballResult) {
+                                Context context = getActivity();
+                                if (basketballResult.error_code == 0){
+                                    mLayout.removeAllViews();
+                                    List<GameDay> lists = basketballResult.result.list;
+                                    for (int i = lists.size()-1;i>=0;i--){
+                                        BasketballDayItem item = new BasketballDayItem(context);
+                                        item.setData(lists.get(i));
+                                        mLayout.addView(item);
+                                    }
+                                } else {
+                                    Toast.makeText(context, "加载数据失败", Toast.LENGTH_SHORT).show();
+                                }
+                                mDataView.setVisibility(View.VISIBLE);
+                                mLoadingLayout.setVisibility(View.GONE);
+                            }
+                        })
         );
-        return view;
+        mRefreshLayout.setRefreshing(false);
     }
 
     @Override

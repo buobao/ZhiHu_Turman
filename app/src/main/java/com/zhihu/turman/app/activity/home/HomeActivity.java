@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
 
         mApp = (TurmanApplication)getApplication();
-
+        mToolbar.setTitle("知乎热点");
         setSupportActionBar(mToolbar);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawer.setDrawerListener(toggle);
@@ -161,14 +161,11 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             bundle.putString(CommonActivity.COMMON_TITLE, "NBA赛事");
             bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.BASKETBALL.getValue());   //传枚举值，再转查找fragment class
             mApp.openCommon(HomeActivity.this,bundle);
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.about) {
+            Bundle bundle = new Bundle();
+            bundle.putString(CommonActivity.COMMON_TITLE, "关于");
+            bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.ABOUT.getValue());
+            mApp.openCommon(HomeActivity.this,bundle);
         }
         mDrawer.closeDrawer(GravityCompat.START);
         return true;

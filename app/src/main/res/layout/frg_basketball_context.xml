@@ -4,25 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
-    <ScrollView
-        android:id="@+id/data_view"
+
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
-        android:visibility="gone"
-        >
-
-        <LinearLayout
-            android:id="@+id/day_items"
+        android:layout_height="wrap_content"
+        android:id="@+id/refresh_layout">
+        <ScrollView
+            android:id="@+id/data_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:visibility="visible">
-        </LinearLayout>
+            android:visibility="gone"
+            >
 
-    </ScrollView>
+            <LinearLayout
+                android:id="@+id/day_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:visibility="visible">
+            </LinearLayout>
+
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <LinearLayout
         android:id="@+id/loading_layout"
