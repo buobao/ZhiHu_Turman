@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.zhihu.turman.app.R;
@@ -27,12 +29,15 @@ public class CommonActivity extends AppCompatActivity {
     public static final String THEME_ID = "id";
     public static final String NEWS_ID = "nId";
     public static final String NEWS_PIC = "pic";
+    public static final String MAP_MENU = "map_menu";
 
     @Bind(R.id.toolbar)
     protected Toolbar mToolbar;
 
     private Bundle mBundle;
     private FragmentManager mFragmentManager;
+
+    private Fragment mFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +49,7 @@ public class CommonActivity extends AppCompatActivity {
         if (mBundle != null) {
             mToolbar.setTitle(mBundle.getString(COMMON_TITLE));
             try {
-                Fragment fragment = (Fragment) CommonEnum.getPageByValue(mBundle.getInt(FRAGMENT_CLZ)).getClz().newInstance();
+                mFragment = (Fragment) CommonEnum.getPageByValue(mBundle.getInt(FRAGMENT_CLZ)).getClz().newInstance();
                 mFragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = mFragmentManager.beginTransaction();
                 Bundle bundle = new Bundle();
@@ -57,8 +62,8 @@ public class CommonActivity extends AppCompatActivity {
                         bundle.putString(BaseContextFragment.ENTITY_PIC, mBundle.getString(NEWS_PIC));
                     }
                 }
-                fragment.setArguments(bundle);
-                transaction.replace(R.id.common_fragment, fragment);
+                mFragment.setArguments(bundle);
+                transaction.replace(R.id.common_fragment, mFragment);
                 transaction.commit();
             } catch (InstantiationException e) {
                 e.printStackTrace();
@@ -75,6 +80,35 @@ public class CommonActivity extends AppCompatActivity {
             }
         });
 
+        if (mBundle != null && mBundle.getBoolean(MAP_MENU,false)) {
+            initMenu();
+        }
 
+
+    }
+
+    private void initMenu() {
+        mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                MapMenuListener listener = (MapMenuListener) mFragment;
+                listener.mapExchange(item.getItemId());
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (mBundle != null && mBundle.getBoolean(MAP_MENU,false)){
+            getMenuInflater().inflate(R.menu.act_common_map,menu);
+            return true;
+        } else {
+            return super.onCreateOptionsMenu(menu);
+        }
+    }
+
+    public interface MapMenuListener{
+        void mapExchange(int itemId);
     }
 }

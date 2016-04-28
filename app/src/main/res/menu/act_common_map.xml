@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/local_search"
+        android:title="搜索"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_menu_test"
+        app:showAsAction="ifRoom"/>
+
+    <item android:id="@+id/road_search"
+        android:title="路线查询"
+        android:orderInCategory="90"
+        android:icon="@drawable/ic_menu_manage"
+        app:showAsAction="ifRoom" />
+
+    <item android:id="@+id/normal_map"
+        android:title="普通地图"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <item android:id="@+id/real_map"
+        android:title="卫星地图"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <item android:id="@+id/blank_map"
+        android:title="空白地图"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+    <item android:id="@+id/map_setting"
+        android:title="设置"
+        android:orderInCategory="100"
+        app:showAsAction="never"/>
+</menu>

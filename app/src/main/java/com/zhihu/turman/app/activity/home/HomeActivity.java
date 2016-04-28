@@ -165,6 +165,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             Bundle bundle = new Bundle();
             bundle.putString(CommonActivity.COMMON_TITLE, "百度地图");
             bundle.putInt(CommonActivity.FRAGMENT_CLZ, CommonEnum.MAP.getValue());   //传枚举值，再转查找fragment class
+            bundle.putBoolean(CommonActivity.MAP_MENU,true);
             mApp.openCommon(HomeActivity.this,bundle);
         } else if (id == R.id.about) {
             Bundle bundle = new Bundle();
